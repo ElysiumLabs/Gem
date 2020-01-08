@@ -27,18 +27,6 @@ namespace Gem
 
         protected AppInitializer AppInitializer;
 
-        protected GemApp()
-        {
-        }
-
-        protected GemApp(IPlatformInitializer platformInitializer) : base(platformInitializer)
-        {
-        }
-
-        protected GemApp(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) : base(platformInitializer, setFormsDependencyResolver)
-        {
-        }
-
         public GemAppOptions Options { get; private set; } = new GemAppOptions();
 
         public StyleKit StyleKit

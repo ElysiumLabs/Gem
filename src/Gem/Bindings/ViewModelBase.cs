@@ -1,29 +1,13 @@
-﻿using Plugin.Connectivity;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Gem.Bindings
 {
-    //public abstract class AppViewModelBase : ViewModelBase
-    //{
-    //    public AppViewModelBase() : base(null)
-    //    {
-    //        GemApp<>.Current
-    //        NavigationService = ((GemApp)GemApp.Current).GetNavigationService();
-    //    }
-    //}
 
-    public abstract class ViewModelBase : BindableBase, IInitialize, INavigationAware
+    public abstract partial class ViewModelBase : BindableBase, IInitialize, INavigationAware
     {
-
-        public ViewModelBase(PageNavigationService navigationService)
-        {
-            NavigationService = navigationService;
-        }
 
         public virtual void Initialize(INavigationParameters parameters)
         {
@@ -54,13 +38,12 @@ namespace Gem.Bindings
                 
             }
         }
-
-        public virtual void HandleException(Exception ex) { }
-
         public virtual Task Load(INavigationParameters parameters)
         {
             return Task.FromResult(0);
         }
+
+        public virtual void HandleException(Exception ex) { }
 
         private ViewModelLoader busyLoader = new ViewModelLoader();
 
@@ -71,5 +54,7 @@ namespace Gem.Bindings
         }
 
         public INavigationService NavigationService { get; protected set; }
+        
+
     }
 }
