@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Gem.Views.Pages.DefaultSplashPage"
+             BackgroundColor="{DynamicResource PrimaryColor}">
+    <ContentPage.Content>
+        <StackLayout
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Spacing="24"
+            >
+
+            <Image
+                Source="splash_logo"
+                WidthRequest="192"
+                HeightRequest="192"
+                Margin="0, 10"
+                >
+
+            </Image>
+
+            <ActivityIndicator
+                HeightRequest="60"
+                WidthRequest="60"
+                IsRunning="{Binding BusyLoader.IsLoading}"
+                Color="{DynamicResource TextColorOfPrimaryColor}"
+                >
+
+            </ActivityIndicator>
+
+            <Label
+                Text="{Binding BusyLoader.LoadingMessage}"
+                TextColor="{DynamicResource TextColorOfPrimaryColor}"
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center"
+                FontSize="Subtitle">
+                
+            </Label>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
