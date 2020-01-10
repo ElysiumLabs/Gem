@@ -13,9 +13,10 @@ namespace GemSandApp
     {
         public override void Configure(GemAppOptions options)
         {
-            options.UseSplashPage = true;
             options.InitializerType = typeof(YourAppInitializer);
-            //options.SplashPageType = typeof(YourCustomXamlSplashPage);
+
+            //options.SplashPageType = typeof(YourCustomXamlSplashPage); if u want a custom splash
+            //options.SplashPageType = null; if u don't want any splash
 
             //Hint, generate your styles here: https://material.io/resources/color/
             StyleKit = new MaterialStyleKit()
@@ -26,11 +27,13 @@ namespace GemSandApp
                 BackgroundColorPage = Color.FromHex("#ffffff")
             };
 
+
+            
         }
 
         protected override void OnInitialized()
         {
-            
+            this.InitializeComponent();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

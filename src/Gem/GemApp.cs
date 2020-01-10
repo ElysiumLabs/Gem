@@ -79,13 +79,14 @@ namespace Gem
             }
 
             containerRegistry.RegisterSingleton(typeof(AppInitializer), Options.InitializerType);
-            ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
-            if (Options.UseSplashPage)
+            if (Options.SplashPageType == null)
             {
-                containerRegistry.RegisterForNavigation(Options.SplashPageType, Options.SplashPageType.Name);
-                
+                Options.SplashPageType = typeof(ContentPage);
             }
+            
+            containerRegistry.RegisterForNavigation(Options.SplashPageType, Options.SplashPageType.Name);
+            ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
 
         }
@@ -119,8 +120,6 @@ namespace Gem
     public class GemAppOptions
     {
         public Type InitializerType { get; set; } = typeof(DefaultInitializer);
-
-        public bool UseSplashPage { get; set; } = true;
 
         public Type SplashPageType { get; set; } = typeof(DefaultSplashPage);
 

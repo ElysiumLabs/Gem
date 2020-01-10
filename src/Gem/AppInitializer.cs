@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Gem.Views.Pages;
 using Prism.AppModel;
+using System.Diagnostics;
 
 namespace Gem
 {
@@ -40,25 +41,29 @@ namespace Gem
 
         public override async Task Load(INavigationParameters parameters)
         {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             try
             {
                 BusyLoader.SetIsLoading(true);
 
-                if (appOptions.UseSplashPage)
-                {
-                    await this.NavigateTAsync(appOptions.SplashPageType.Name);
-                }
+                await this.NavigateTAsync(appOptions.SplashPageType.Name);
 
                 await InitializeAsync();
 
                 BusyLoader.SetIsLoading(false);
 
-                var qq = (NavigationService as PageNavigationService).GetNavigationUriPath();
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
+            finally
+            {
+                stopWatch.Stop();
+            }
+
         }
 
         public abstract Task InitializeAsync();
