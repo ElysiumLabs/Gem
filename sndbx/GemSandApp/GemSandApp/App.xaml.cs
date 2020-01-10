@@ -1,28 +1,43 @@
-﻿using System;
+﻿using Gem;
+using Gem.UX;
+using GemSandApp.Views.Pages;
+using GemSandApp.Views.Shell;
+using Prism.Ioc;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace GemSandApp
 {
-    public partial class App : Application
+    public partial class App : GemApp
     {
-        public App()
+        public override void Configure(GemAppOptions options)
         {
-            InitializeComponent();
+            options.UseSplashPage = true;
+            options.InitializerType = typeof(YourAppInitializer);
+            //options.SplashPageType = typeof(YourCustomXamlSplashPage);
 
-            MainPage = new MainPage();
+            //Hint, generate your styles here: https://material.io/resources/color/
+            StyleKit = new MaterialStyleKit()
+            {
+                PrimaryColor = Color.FromHex("#FF303f9f"),
+                SecondaryColor = Color.FromHex("#FF8e24aa"),
+                TextColorOfPrimaryColor = Color.FromHex("#ffffff"),
+                BackgroundColorPage = Color.FromHex("#ffffff")
+            };
+
         }
 
-        protected override void OnStart()
+        protected override void OnInitialized()
         {
+            
         }
 
-        protected override void OnSleep()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-        }
+            containerRegistry.RegisterForNavigation<NavigationShell>();
+            containerRegistry.RegisterForNavigation<HomePage>();
 
-        protected override void OnResume()
-        {
         }
     }
 }

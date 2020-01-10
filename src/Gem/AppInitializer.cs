@@ -17,28 +17,51 @@ namespace Gem
         private readonly GemAppOptions appOptions;
         private readonly ApplicationStore applicationStore;
 
-        public AppInitializer(GemAppOptions appOptions, ApplicationStore applicationStore, PageNavigationService navigationService) : base(navigationService)
+        public AppInitializer(GemAppOptions appOptions, ApplicationStore applicationStore, ViewModelBaseServices viewModelBaseServices) : base(viewModelBaseServices)
         {
             this.appOptions = appOptions;
             this.applicationStore = applicationStore;
         }
 
-        public abstract Task InitializeAsync();
-
-        public virtual async Task InitializeInternalAsync()
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            BusyLoader.SetIsLoading(true, "Iniciando, aguarde...");
-
-            if (appOptions.UseSplashPage)
-            {
-                var r = await NavigationService.NavigateAsync(appOptions.SplashPageType.Name);
-            }
-
-            await InitializeAsync();
-
-            BusyLoader.SetIsLoading(false);
+            //override navigation events cause we "Load" first
+        }
+        
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //override navigation events cause we "Load" first
         }
 
+        public override void Initialize(INavigationParameters parameters)
+        {
+            //override navigation events cause we "Load" first
+        }
+
+        public override async Task Load(INavigationParameters parameters)
+        {
+            try
+            {
+                BusyLoader.SetIsLoading(true);
+
+                if (appOptions.UseSplashPage)
+                {
+                    await this.NavigateTAsync(appOptions.SplashPageType.Name);
+                }
+
+                await InitializeAsync();
+
+                BusyLoader.SetIsLoading(false);
+
+                var qq = (NavigationService as PageNavigationService).GetNavigationUriPath();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        public abstract Task InitializeAsync();
       
     }
 }

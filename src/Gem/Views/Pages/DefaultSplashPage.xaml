@@ -14,10 +14,11 @@
             >
 
             <Image
-                Source="splash_logo"
-                WidthRequest="192"
-                HeightRequest="192"
+                Source="splashlogo"
+                HorizontalOptions="Fill"
+                HeightRequest="300"
                 Margin="0, 10"
+                Aspect="AspectFit"
                 >
 
             </Image>

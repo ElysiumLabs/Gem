@@ -7,7 +7,6 @@ using System.Text;
 using Gem.Views.Pages;
 using Prism.Logging;
 using System.Threading.Tasks;
-using Prism.AppModel;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Prism.Mvvm;
@@ -32,10 +31,10 @@ namespace Gem
         public StyleKit StyleKit
         {
             get { return _styleKit; }
-            set 
-            { 
-                _styleKit = value; 
-                UpdateAppStyle(); 
+            set
+            {
+                _styleKit = value;
+                UpdateAppStyle();
             }
         }
 
@@ -56,10 +55,10 @@ namespace Gem
         protected virtual async Task AppInitializeInternal()
         {
             AppInitializer = Container.Resolve<AppInitializer>();
-            await AppInitializer.InitializeInternalAsync();
+            await AppInitializer.Load(null);
         }
 
-  
+
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             base.RegisterRequiredTypes(containerRegistry);
@@ -80,14 +79,15 @@ namespace Gem
             }
 
             containerRegistry.RegisterSingleton(typeof(AppInitializer), Options.InitializerType);
+            ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
             if (Options.UseSplashPage)
             {
                 containerRegistry.RegisterForNavigation(Options.SplashPageType, Options.SplashPageType.Name);
-                ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
+                
             }
 
-            
+
         }
 
         protected virtual void HookAppCenterNavigationEvents()
@@ -126,19 +126,6 @@ namespace Gem
 
         public bool UseAppCenter { get; set; }
 
-
-    }
-
-    public class DefaultInitializer : AppInitializer
-    {
-        public DefaultInitializer(GemAppOptions appOptions, ApplicationStore applicationStore, PageNavigationService navigationService) : base(appOptions, applicationStore, navigationService)
-        {
-        }
-
-        public override async Task InitializeAsync()
-        {
-            
-        }
 
     }
 }
