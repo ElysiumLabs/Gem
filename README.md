@@ -2,12 +2,11 @@
 
 ## A Prism business ready app pattern-library.
 
-
+Nuget: https://www.nuget.org/packages/Elysium.Prism.Gem/
 
 | Master  | Dev |
 | ------------- | ------------- |
 | ![CI for Master](https://elysiumlabs.visualstudio.com/Gem/_apis/build/status/Gem-CI?branchName=master)  | ![CI for Master](https://elysiumlabs.visualstudio.com/Gem/_apis/build/status/Gem-CI?branchName=dev)  |
-| ![Nuget](https://img.shields.io/nuget/dt/Elysium.Prism.Gem) |  |
 
 ### Funcionalities
 - [x] App Initialization Load Strategy
