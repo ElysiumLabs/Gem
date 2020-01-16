@@ -7,7 +7,7 @@
     <PackageProjectUrl>https://github.com/elysiumlabs/gem</PackageProjectUrl>
     <RepositoryUrl>https://github.com/elysiumlabs/gem</RepositoryUrl>
     <PackageTags>gem prism xamarin forms app</PackageTags>
-    <PackageIconUrl>https://github.com/ElysiumLabs/Gem/blob/master/imgs/gem.png?raw=true</PackageIconUrl>
+    <PackageIconUrl>https://github.com/ElysiumLabs/Gem/blob/master/imgs/gem.png?raw=true</PackageIconUrl>   
   </PropertyGroup>
 
   <ItemGroup>
