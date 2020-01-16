@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Elysium.Prism.Gem</PackageId>
+    <Authors>angusbreno, vexpro</Authors>
+    <PackageProjectUrl>https://github.com/elysiumlabs/gem</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/elysiumlabs/gem</RepositoryUrl>
+    <PackageTags>gem prism xamarin forms app</PackageTags>
+
   </PropertyGroup>
 
   <ItemGroup>

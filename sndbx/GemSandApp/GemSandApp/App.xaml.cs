@@ -28,12 +28,11 @@ namespace GemSandApp
             };
 
 
-            
         }
 
         protected override void OnInitialized()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
