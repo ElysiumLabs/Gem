@@ -27,6 +27,7 @@ namespace GemSandApp
                 BackgroundColorPage = Color.FromHex("#ffffff")
             };
 
+
         }
 
         protected override void OnInitialized()
