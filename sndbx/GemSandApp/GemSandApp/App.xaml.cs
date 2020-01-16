@@ -14,7 +14,6 @@ namespace GemSandApp
         public override void Configure(GemAppOptions options)
         {
             options.InitializerType = typeof(YourAppInitializer);
-
             //options.SplashPageType = typeof(YourCustomXamlSplashPage); if u want a custom splash
             //options.SplashPageType = null; if u don't want any splash
 
@@ -38,7 +37,7 @@ namespace GemSandApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationShell>();
-            containerRegistry.RegisterForNavigation<HomePage>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 
         }
     }

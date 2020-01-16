@@ -26,6 +26,18 @@ namespace Gem
 
         protected AppInitializer AppInitializer;
 
+        protected GemApp() : base()
+        {
+        }
+
+        protected GemApp(IPlatformInitializer platformInitializer) : base(platformInitializer)
+        {
+        }
+
+        protected GemApp(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) : base(platformInitializer, setFormsDependencyResolver)
+        {
+        }
+
         public GemAppOptions Options { get; private set; } = new GemAppOptions();
 
         public StyleKit StyleKit
@@ -88,6 +100,7 @@ namespace Gem
             containerRegistry.RegisterForNavigation(Options.SplashPageType, Options.SplashPageType.Name);
             ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
+            containerRegistry.RegisterForNavigation<DefaultChangeEnvPage, DefaultChangeEnvViewModel>();
 
         }
 
@@ -115,6 +128,7 @@ namespace Gem
         {
             return PrismContainerExtension.Current ?? PrismContainerExtension.Create();
         }
+
     }
 
     public class GemAppOptions
@@ -124,7 +138,5 @@ namespace Gem
         public Type SplashPageType { get; set; } = typeof(DefaultSplashPage);
 
         public bool UseAppCenter { get; set; }
-
-
     }
 }
