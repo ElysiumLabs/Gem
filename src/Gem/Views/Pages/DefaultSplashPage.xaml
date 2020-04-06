@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Gem.Views.Pages.DefaultSplashPage"
-             BackgroundColor="{DynamicResource PrimaryColor}">
+             BackgroundColor="{DynamicResource PrimaryColor}"
+             >
     <ContentPage.Content>
         <StackLayout
             VerticalOptions="Center"

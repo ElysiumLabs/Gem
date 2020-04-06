@@ -100,6 +100,7 @@ namespace Gem
             containerRegistry.RegisterForNavigation(Options.SplashPageType, Options.SplashPageType.Name);
             ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
+            containerRegistry.RegisterForNavigation<DefaultChangeEnvPage, DefaultChangeEnvViewModel>();
 
         }
 
@@ -127,6 +128,7 @@ namespace Gem
         {
             return PrismContainerExtension.Current ?? PrismContainerExtension.Create();
         }
+
     }
 
     public class GemAppOptions
@@ -136,7 +138,5 @@ namespace Gem
         public Type SplashPageType { get; set; } = typeof(DefaultSplashPage);
 
         public bool UseAppCenter { get; set; }
-
-
     }
 }

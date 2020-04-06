@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Gem.Bindings;
+using Gem.Views.Pages;
+using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +19,21 @@ namespace GemSandApp.Views.Pages
         {
             InitializeComponent();
         }
+    }
+
+    public class HomePageViewModel : ViewModelBase
+    {
+        public HomePageViewModel(ViewModelBaseServices viewModelBaseServices) : base(viewModelBaseServices)
+        {
+        }
+
+        public override async Task Load(INavigationParameters parameters)
+        {
+        }
+
+        public Command ChangeEnv => new Command(async () => 
+        {
+            await NavigationService.NavigateAsync(nameof(DefaultChangeEnvPage));
+        });
     }
 }

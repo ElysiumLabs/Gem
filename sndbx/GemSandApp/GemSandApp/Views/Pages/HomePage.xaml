@@ -8,10 +8,18 @@
              BackgroundColor="{DynamicResource BackgroundColorPage}">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Home page"
-                   FontSize="Header"
+            <Label 
+                Text="Home page"
+                FontSize="Header"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" 
+                />
+
+            <Button
+                Command="{Binding ChangeEnv}"
+                Text="Trocar de ambiente"
+                />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
