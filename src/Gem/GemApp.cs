@@ -17,6 +17,7 @@ using Prism.Container.Extensions;
 using System.Diagnostics;
 using Gem.AppCenter;
 using Gem.Diagnostics;
+using Prism.Events;
 
 namespace Gem
 {
@@ -66,10 +67,19 @@ namespace Gem
 
         protected virtual async Task AppInitializeInternal()
         {
+            var eventAggregator = Container.Resolve<IEventAggregator>();
+            eventAggregator.GetEvent<GemAppRestartEvent>().Unsubscribe(Restart);
+            eventAggregator.GetEvent<GemAppRestartEvent>().Subscribe(Restart);
+            
             AppInitializer = Container.Resolve<AppInitializer>();
             await AppInitializer.Load(null);
         }
 
+        private async void Restart()
+        {
+            this.Initialize();
+            await AppInitializeInternal();
+        }
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
@@ -138,5 +148,10 @@ namespace Gem
         public Type SplashPageType { get; set; } = typeof(DefaultSplashPage);
 
         public bool UseAppCenter { get; set; }
+    }
+
+    public class GemAppRestartEvent : PubSubEvent
+    {
+
     }
 }

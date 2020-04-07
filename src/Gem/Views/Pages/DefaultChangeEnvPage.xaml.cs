@@ -15,8 +15,6 @@ namespace Gem.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DefaultChangeEnvPage : ContentPage
     {
-        public static bool PreviusPasswordAccepted = false;
-
         public DefaultChangeEnvPage()
         {
             InitializeComponent();
@@ -27,6 +25,7 @@ namespace Gem.Views.Pages
     {
         private readonly ApplicationStore applicationStore;
         private readonly AppInitializer appInitializer;
+        private readonly GemApp gemApp;
 
         public DefaultChangeEnvViewModel(ViewModelBaseServices viewModelBaseServices, ApplicationStore applicationStore, AppInitializer appInitializer) : base(viewModelBaseServices)
         {
@@ -75,6 +74,10 @@ namespace Gem.Views.Pages
                         CurrentEnv = "Desenvolvimento";
                         break;
 
+                    case "test":
+                        CurrentEnv = "Teste";
+                        break;
+
                     case "stag":
                         CurrentEnv = "Homologação";
                         break;
@@ -103,7 +106,8 @@ namespace Gem.Views.Pages
                 applicationStore.Properties["env"] = s;
 
                 await applicationStore.SavePropertiesAsync();
-                await appInitializer.InitializeAsync();
+
+                EventAggregator.GetEvent<GemAppRestartEvent>().Publish();
             }
             catch (Exception ex)
             {
