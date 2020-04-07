@@ -15,6 +15,8 @@ namespace Gem.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DefaultChangeEnvPage : ContentPage
     {
+        public static bool PreviusPasswordAccepted = false;
+
         public DefaultChangeEnvPage()
         {
             InitializeComponent();
