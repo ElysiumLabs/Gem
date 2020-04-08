@@ -73,6 +73,11 @@ namespace Gem.Views.Pages
                         CurrentEnv = "Desenvolvimento";
                         break;
 
+                    case "test":
+                        CurrentEnv = "Teste";
+                        break;
+
+
                     case "stag":
                         CurrentEnv = "Homologação";
                         break;
@@ -101,7 +106,9 @@ namespace Gem.Views.Pages
                 applicationStore.Properties["env"] = s;
 
                 await applicationStore.SavePropertiesAsync();
-                await appInitializer.InitializeAsync();
+
+                EventAggregator.GetEvent<GemAppRestartEvent>().Publish();
+
             }
             catch (Exception ex)
             {
