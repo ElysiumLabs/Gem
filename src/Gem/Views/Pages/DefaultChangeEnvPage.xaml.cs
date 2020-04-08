@@ -25,7 +25,6 @@ namespace Gem.Views.Pages
     {
         private readonly ApplicationStore applicationStore;
         private readonly AppInitializer appInitializer;
-        private readonly GemApp gemApp;
 
         public DefaultChangeEnvViewModel(ViewModelBaseServices viewModelBaseServices, ApplicationStore applicationStore, AppInitializer appInitializer) : base(viewModelBaseServices)
         {
@@ -78,6 +77,7 @@ namespace Gem.Views.Pages
                         CurrentEnv = "Teste";
                         break;
 
+
                     case "stag":
                         CurrentEnv = "Homologação";
                         break;
@@ -108,6 +108,7 @@ namespace Gem.Views.Pages
                 await applicationStore.SavePropertiesAsync();
 
                 EventAggregator.GetEvent<GemAppRestartEvent>().Publish();
+
             }
             catch (Exception ex)
             {

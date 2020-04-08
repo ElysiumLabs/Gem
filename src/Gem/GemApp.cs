@@ -148,10 +148,11 @@ namespace Gem
         public Type SplashPageType { get; set; } = typeof(DefaultSplashPage);
 
         public bool UseAppCenter { get; set; }
+
     }
 
     public class GemAppRestartEvent : PubSubEvent
     {
-
     }
+    
 }
