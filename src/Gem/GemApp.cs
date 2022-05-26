@@ -1,5 +1,4 @@
 ﻿using Prism;
-using Prism.Ioc;
 using Prism.Unity;
 using System;
 using System.Collections.Generic;
@@ -18,6 +17,9 @@ using System.Diagnostics;
 using Gem.AppCenter;
 using Gem.Diagnostics;
 using Prism.Events;
+using Prism.Modularity;
+using Prism.Ioc;
+using System.Linq;
 
 namespace Gem
 {
@@ -70,7 +72,7 @@ namespace Gem
             var eventAggregator = Container.Resolve<IEventAggregator>();
             eventAggregator.GetEvent<GemAppRestartEvent>().Unsubscribe(Restart);
             eventAggregator.GetEvent<GemAppRestartEvent>().Subscribe(Restart);
-            
+
             AppInitializer = Container.Resolve<AppInitializer>();
             await AppInitializer.Load(null);
         }
@@ -91,12 +93,12 @@ namespace Gem
         {
             containerRegistry.RegisterInstance(Options);
 
-            containerRegistry.RegisterSingleton<ILoggerFacade, GemLogger>();
+            containerRegistry.RegisterSingleton<ILogger, GemLogger>();
             containerRegistry.RegisterSingleton<ExceptionHandler, DefaultExceptionHandler>();
 
             if (Options.UseAppCenter)
             {
-                containerRegistry.RegisterManySingleton<AppCenterLogger>(typeof(ILogger), typeof(ILoggerFacade), typeof(IAnalyticsService), typeof(ICrashesService));
+                containerRegistry.RegisterManySingleton<AppCenterLogger>(typeof(ILogger), typeof(IAnalyticsService), typeof(ICrashesService));
                 HookAppCenterNavigationEvents();
             }
 
@@ -106,7 +108,7 @@ namespace Gem
             {
                 Options.SplashPageType = typeof(ContentPage);
             }
-            
+
             containerRegistry.RegisterForNavigation(Options.SplashPageType, Options.SplashPageType.Name);
             ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
@@ -132,11 +134,6 @@ namespace Gem
         protected virtual void UpdateAppStyle()
         {
             StyleKit?.Apply(this);
-        }
-
-        protected override IContainerExtension CreateContainerExtension()
-        {
-            return PrismContainerExtension.Current ?? PrismContainerExtension.Create();
         }
 
     }
