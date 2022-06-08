@@ -40,7 +40,7 @@ namespace Gem
 
         public TGemApp GetApp(IPlatformInitializer platformInitializer = null)
         {
-            if (CurrentApp != null)
+            if (CurrentApp == null)
             {
                 CurrentApp =
                     (platformInitializer != null) ?
@@ -52,10 +52,6 @@ namespace Gem
             return CurrentApp;
         }
 
-        public override void ConfigureServices(IServiceCollection services, Shiny.IPlatform platform)
-        {
-            services.AddSingleton<TGemApp>();
-        }
 
     }
 
