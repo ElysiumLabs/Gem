@@ -21,25 +21,38 @@ using Prism.Modularity;
 using Prism.Ioc;
 using System.Linq;
 using Shiny;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gem
 {
-    public abstract class ShinyGemApp<TShinyInitializer> : GemApp 
-        where TShinyInitializer : ShinyStartup, new()
+    public abstract class ShinyGemApp<TGemApp> : ShinyStartup
+        where TGemApp : GemApp
     {
-        protected ShinyGemApp()
+        protected TGemApp CurrentApp { get; set; }
+
+        public ShinyGemApp()
         {
         }
 
-        protected ShinyGemApp(IPlatformInitializer platformInitializer) : base(platformInitializer)
+        public ShinyGemApp(Action<IServiceCollection> registerPlatformServices) : base(registerPlatformServices)
         {
         }
 
-        protected ShinyGemApp(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) : base(platformInitializer, setFormsDependencyResolver)
+        public TGemApp GetApp(IPlatformInitializer platformInitializer = null)
         {
+            if (CurrentApp == null)
+            {
+                CurrentApp =
+                    (platformInitializer != null) ?
+                        (TGemApp)Activator.CreateInstance(typeof(TGemApp), platformInitializer)
+                        :
+                        CurrentApp = (TGemApp)Activator.CreateInstance(typeof(TGemApp));
+            }
+
+            return CurrentApp;
         }
 
-        public static TShinyInitializer GetShinyInitializer() => new TShinyInitializer();
+
     }
 
     public abstract class GemApp : PrismApplication

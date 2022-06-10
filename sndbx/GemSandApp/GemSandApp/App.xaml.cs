@@ -1,33 +1,29 @@
 ﻿using Gem;
 using Gem.UX;
+using GemSandApp.Utils;
 using GemSandApp.Views.Pages;
 using GemSandApp.Views.Shell;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using Shiny;
+using Shiny.Notifications;
+using Shiny.Push;
 using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: ShinyApplication(
+    ShinyStartupTypeName = "GemSandApp.ShinyApp",
+    XamarinFormsAppTypeName = "GemSandApp.App"
+)]
+
 namespace GemSandApp
 {
-    public class ShinySandAppInitializer : ShinyStartup
+
+    public partial class App : GemApp
     {
-        public override void ConfigureServices(IServiceCollection services, IPlatform platform)
-        {
-        }
-    }
-
-    public partial class App : ShinyGemApp<ShinySandAppInitializer>
-    {
-        public App()
-        {
-        }
-
-        public App(Prism.IPlatformInitializer platformInitializer) : base(platformInitializer)
-        {
-        }
-
         public override void Configure(GemAppOptions options)
         {
             options.InitializerType = typeof(YourAppInitializer);
@@ -43,8 +39,12 @@ namespace GemSandApp
                 BackgroundColorPage = Color.FromHex("#ffffff")
             };
 
-
         }
+
+        //protected override void Initialize()
+        //{
+        //    //base.Initialize();
+        //}
 
         protected override void OnInitialized()
         {
@@ -57,5 +57,65 @@ namespace GemSandApp
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 
         }
+    }
+
+    public class ShinyApp : ShinyGemApp<App>
+    {
+        public ShinyApp(Action<IServiceCollection> registerPlatformServices) : base(registerPlatformServices)
+        {
+        }
+
+        public override void ConfigureServices(IServiceCollection services, IPlatform platform)
+        {
+           //services.UseNotifications<NotificationDelegate>();
+        }
+    }
+
+    //public class NotificationDelegate : INotificationDelegate
+    //{
+    //    private readonly INotificationManager notificationManager;
+
+    //    public NotificationDelegate(INotificationManager notificationManager)
+    //    {
+    //        this.notificationManager = notificationManager;
+    //    }
+
+    //    public async Task OnEntry(NotificationResponse response)
+    //    {
+    //        App.Current.MainPage.BackgroundColor = Color.Red;
+    //    }
+    //}
+
+    public class SandPushDelegate : IPushDelegate
+    {
+        //private readonly INotificationManager notificationManager;
+
+        //public SandPushDelegate(
+        //    INotificationManager notificationManager
+        //    )
+        //{
+        //    this.notificationManager = notificationManager;
+        //}
+
+        public async Task OnEntry(PushNotification data) => Debug.Write("OnEntry");
+
+        public async Task OnReceived(PushNotification data) => Debug.Write("OnReceived");
+
+        //public async Task OnReceived(PushNotification data)
+        //{
+        //    //toastService.LongAlert("OnReceived");
+
+        //    Debug.Write("OnReceived");
+        //    //var n = new Shiny.Notifications.Notification()
+        //    //{
+        //    //    Title = data.Data["property1"].ToString(),
+        //    //    Message = data.Data["property2"].ToString()
+        //    //};
+
+        //    //await notificationManager.Send(n);
+        //}
+
+        public async Task OnTokenRefreshed(string token) => Debug.Write("OnTokenRefreshed");
+
     }
 }
