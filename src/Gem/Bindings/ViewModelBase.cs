@@ -16,7 +16,6 @@ namespace Gem.Bindings
         {
             if (viewModelBaseServices == null) { throw new Exception(nameof(ViewModelBaseServices) + " is null"); }
 
-            //Logger = viewModelBaseServices.Logger;
             EventAggregator = viewModelBaseServices.EventAggregator;
             NavigationService = viewModelBaseServices.PageNavigationService;
             ExceptionHandler = viewModelBaseServices.ExceptionHandler;
@@ -67,7 +66,6 @@ namespace Gem.Bindings
             set { SetProperty(ref busyLoader, value); }
         }
 
-       // public ILoggerFacade Logger { get; protected set; }
         public IEventAggregator EventAggregator { get; protected set; }
         public ExceptionHandler ExceptionHandler { get; private set; }
         public INavigationService NavigationService { get; protected set; }

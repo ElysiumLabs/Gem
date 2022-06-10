@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Shiny;
+using Android.Content;
 
 namespace GemSandApp.Droid
 {
@@ -28,6 +30,25 @@ namespace GemSandApp.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            this.ShinyOnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            this.ShinyOnActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    [Application]
+    public class MainApplication : Application
+    {
+        public MainApplication(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
+
+        public override void OnCreate()
+        {
+            base.OnCreate();
+            this.ShinyOnCreate(App.GetShinyInitializer());
         }
     }
 }

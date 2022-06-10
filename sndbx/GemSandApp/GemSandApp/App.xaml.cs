@@ -2,14 +2,23 @@
 using Gem.UX;
 using GemSandApp.Views.Pages;
 using GemSandApp.Views.Shell;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
+using Shiny;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace GemSandApp
 {
-    public partial class App : GemApp
+    public class ShinySandAppInitializer : ShinyStartup
+    {
+        public override void ConfigureServices(IServiceCollection services, IPlatform platform)
+        {
+        }
+    }
+
+    public partial class App : ShinyGemApp<ShinySandAppInitializer>
     {
         public override void Configure(GemAppOptions options)
         {

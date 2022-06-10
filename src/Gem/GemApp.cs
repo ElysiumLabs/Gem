@@ -20,9 +20,16 @@ using Prism.Events;
 using Prism.Modularity;
 using Prism.Ioc;
 using System.Linq;
+using Shiny;
 
 namespace Gem
 {
+    public abstract class ShinyGemApp<TShinyInitializer> : GemApp 
+        where TShinyInitializer : ShinyStartup, new()
+    {
+        public static TShinyInitializer GetShinyInitializer() => new TShinyInitializer();
+    }
+
     public abstract class GemApp : PrismApplication
     {
         private StyleKit _styleKit;
