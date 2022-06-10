@@ -25,16 +25,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Gem
 {
-    public abstract class ShinnyGemApp<TGemApp> : ShinyStartup
+    public abstract class ShinyGemApp<TGemApp> : ShinyStartup
         where TGemApp : GemApp
     {
         protected TGemApp CurrentApp { get; set; }
 
-        public ShinnyGemApp()
+        public ShinyGemApp()
         {
         }
 
-        public ShinnyGemApp(Action<IServiceCollection> registerPlatformServices) : base(registerPlatformServices)
+        public ShinyGemApp(Action<IServiceCollection> registerPlatformServices) : base(registerPlatformServices)
         {
         }
 

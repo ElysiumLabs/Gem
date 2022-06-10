@@ -59,7 +59,7 @@ namespace GemSandApp
         }
     }
 
-    public class ShinyApp : ShinnyGemApp<App>
+    public class ShinyApp : ShinyGemApp<App>
     {
         public ShinyApp(Action<IServiceCollection> registerPlatformServices) : base(registerPlatformServices)
         {
@@ -67,10 +67,6 @@ namespace GemSandApp
 
         public override void ConfigureServices(IServiceCollection services, IPlatform platform)
         {
-            services.UsePushAzureNotificationHubs<SandPushDelegate>(
-                "Endpoint=sb://gemsandapp-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=F7r9hS7VjZ+ygFDvSZ5qkm2BFHLydq+DrLssC3TEgt0=", 
-                "gemsandapp");
-
            //services.UseNotifications<NotificationDelegate>();
         }
     }
