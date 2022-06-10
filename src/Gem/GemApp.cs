@@ -27,6 +27,18 @@ namespace Gem
     public abstract class ShinyGemApp<TShinyInitializer> : GemApp 
         where TShinyInitializer : ShinyStartup, new()
     {
+        protected ShinyGemApp()
+        {
+        }
+
+        protected ShinyGemApp(IPlatformInitializer platformInitializer) : base(platformInitializer)
+        {
+        }
+
+        protected ShinyGemApp(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) : base(platformInitializer, setFormsDependencyResolver)
+        {
+        }
+
         public static TShinyInitializer GetShinyInitializer() => new TShinyInitializer();
     }
 

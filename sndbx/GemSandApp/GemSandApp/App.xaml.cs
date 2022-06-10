@@ -20,6 +20,14 @@ namespace GemSandApp
 
     public partial class App : ShinyGemApp<ShinySandAppInitializer>
     {
+        public App()
+        {
+        }
+
+        public App(Prism.IPlatformInitializer platformInitializer) : base(platformInitializer)
+        {
+        }
+
         public override void Configure(GemAppOptions options)
         {
             options.InitializerType = typeof(YourAppInitializer);
