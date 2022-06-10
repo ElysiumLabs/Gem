@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<gem:ShinyGemApp
-    x:TypeArguments="gemsandapp:ShinySandAppInitializer"
+<gem:GemApp
     xmlns:gem="clr-namespace:Gem;assembly=Gem"
     xmlns:gemsandapp="clr-namespace:GemSandApp"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -16,4 +15,4 @@
     </Application.Resources>
 
 
-</gem:ShinyGemApp>
+</gem:GemApp>
