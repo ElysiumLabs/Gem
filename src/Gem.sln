@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gem", "Gem\Gem.csproj", "{C844F1B9-1B23-4528-BA04-82689068BA3E}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GemSandApp.Android", "..\sn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GemSandApp.iOS", "..\sndbx\GemSandApp\GemSandApp.iOS\GemSandApp.iOS.csproj", "{CE32580D-31C2-4C3E-BD44-346E538B454B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GemSandApp", "..\sndbx\GemSandApp\GemSandApp\GemSandApp.csproj", "{C6B255A2-4CA3-4B37-982E-8C4A9E346CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GemSandApp", "..\sndbx\GemSandApp\GemSandApp\GemSandApp.csproj", "{C6B255A2-4CA3-4B37-982E-8C4A9E346CC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
