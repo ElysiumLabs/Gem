@@ -61,6 +61,8 @@ namespace Gem
 
         protected AppInitializer AppInitializer;
 
+        public IEventAggregator EventAggregator;
+
         protected GemApp() : base()
         {
         }
@@ -91,19 +93,36 @@ namespace Gem
         {
             Configure(Options);
             base.Initialize();
+            
+            EventAggregator = Container.Resolve<IEventAggregator>();
         }
 
         protected override async void OnStart()
         {
             base.OnStart();
             await AppInitializeInternal();
+
+        }
+
+        public virtual void EventSubscribe<T, U>(Action<U> action) where T : PubSubEvent<U>, new()
+        {
+            EventAggregator.GetEvent<T>().Subscribe(action);
+        }
+
+        public virtual void EventUnsubscribe<T, U>(Action<U> action) where T : PubSubEvent<U>, new()
+        {
+            EventAggregator.GetEvent<T>().Unsubscribe(action);
+        }
+
+        public virtual void EventTrigger<T, U>(U parameter) where T : PubSubEvent<U>, new()
+        {
+            EventAggregator.GetEvent<T>().Publish(parameter);
         }
 
         protected virtual async Task AppInitializeInternal()
         {
-            var eventAggregator = Container.Resolve<IEventAggregator>();
-            eventAggregator.GetEvent<GemAppRestartEvent>().Unsubscribe(Restart);
-            eventAggregator.GetEvent<GemAppRestartEvent>().Subscribe(Restart);
+            EventAggregator.GetEvent<GemAppRestartEvent>().Unsubscribe(Restart);
+            EventAggregator.GetEvent<GemAppRestartEvent>().Subscribe(Restart);
 
             AppInitializer = Container.Resolve<AppInitializer>();
             await AppInitializer.Load(null);
