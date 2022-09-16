@@ -106,7 +106,7 @@ namespace Gem
 
         public virtual void EventSubscribe<T, U>(Action<U> action) where T : PubSubEvent<U>, new()
         {
-            EventAggregator.GetEvent<T>().Subscribe(action);
+            EventAggregator.GetEvent<T>().Subscribe(action, ThreadOption.UIThread);
         }
 
         public virtual void EventUnsubscribe<T, U>(Action<U> action) where T : PubSubEvent<U>, new()
