@@ -104,20 +104,57 @@ namespace Gem
 
         }
 
+        #region SUBSCRIPTION
+
         public virtual void EventSubscribe<T, U>(Action<U> action) where T : PubSubEvent<U>, new()
         {
-            EventAggregator.GetEvent<T>().Subscribe(action, ThreadOption.UIThread);
+            EventAggregator.GetEvent<T>().Subscribe(action);
         }
+
+        public virtual void EventSubscribe<T, U>(Action<U> action, ThreadOption threadOption) where T : PubSubEvent<U>, new()
+        {
+            EventAggregator.GetEvent<T>().Subscribe(action, threadOption);
+        }
+
+        public virtual void EventSubscribe<T>(Action action, ThreadOption threadOption) where T : PubSubEvent, new()
+        {
+            EventAggregator.GetEvent<T>().Subscribe(action, threadOption);
+        }
+
+        public virtual void EventSubscribe<T>(Action action) where T : PubSubEvent, new()
+        {
+            EventAggregator.GetEvent<T>().Subscribe(action);
+        }
+
+        #endregion SUBSCRIPTION
+
+        #region UNSUBSCRIPTION
 
         public virtual void EventUnsubscribe<T, U>(Action<U> action) where T : PubSubEvent<U>, new()
         {
             EventAggregator.GetEvent<T>().Unsubscribe(action);
         }
 
+        public virtual void EventUnsubscribe<T>(Action action) where T : PubSubEvent, new()
+        {
+            EventAggregator.GetEvent<T>().Unsubscribe(action);
+        }
+
+        #endregion UNSUBSCRIPTION
+
+        #region TRIGGER
+
         public virtual void EventTrigger<T, U>(U parameter) where T : PubSubEvent<U>, new()
         {
             EventAggregator.GetEvent<T>().Publish(parameter);
         }
+
+        public virtual void EventTrigger<T>() where T : PubSubEvent, new()
+        {
+            EventAggregator.GetEvent<T>().Publish();
+        }
+
+        #endregion TRIGGER
 
         protected virtual async Task AppInitializeInternal()
         {
