@@ -1,8 +1,14 @@
 ﻿using Gem.Diagnostics;
+using Prism.Behaviors;
+using Prism.Common;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Plugin.Popups;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +23,7 @@ namespace Gem.Bindings
             if (viewModelBaseServices == null) { throw new Exception(nameof(ViewModelBaseServices) + " is null"); }
 
             EventAggregator = viewModelBaseServices.EventAggregator;
-            NavigationService = viewModelBaseServices.PageNavigationService;
+            NavigationService = viewModelBaseServices.NavigationService;
             ExceptionHandler = viewModelBaseServices.ExceptionHandler;
         }
 
@@ -68,7 +74,7 @@ namespace Gem.Bindings
 
         public IEventAggregator EventAggregator { get; protected set; }
         public ExceptionHandler ExceptionHandler { get; private set; }
-        public INavigationService NavigationService { get; protected set; }
+        public IGemAppNavigationService NavigationService { get; protected set; }
     }
 
     public class ViewModelBaseServices
@@ -77,23 +83,55 @@ namespace Gem.Bindings
             //ILoggerFacade logger,
             IEventAggregator eventAggregator,
             ExceptionHandler exceptionHandler,
-            PageNavigationService pageNavigationService
+            NavigationService navigationService
             )
         {
             //Logger = logger;
             EventAggregator = eventAggregator;
             ExceptionHandler = exceptionHandler;
-            PageNavigationService = pageNavigationService;
+            NavigationService = navigationService;
         }
 
         //public ILoggerFacade Logger { get; }
         public IEventAggregator EventAggregator { get; }
         public ExceptionHandler ExceptionHandler { get; }
-        public PageNavigationService PageNavigationService { get; }
-    }
+        public NavigationService NavigationService { get; }
+
+}
 
     public class ViewModelBaseExceptionEvent : PubSubEvent<Exception>
     {
 
+    }
+
+    public class NavigationService : PageNavigationService, IGemAppNavigationService
+    {
+        public NavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, PopupPageNavigationService popupPageNavigationService) : base(container, applicationProvider, pageBehaviorFactory)
+        {
+            Popup = popupPageNavigationService;
+        }
+
+        public PopupPageNavigationService Popup { get; }
+
+        public Task<INavigationResult> NavigateAsync<T>()
+        {
+            return typeof(T).BaseType == typeof(PopupPage) ?
+                Popup.NavigateAsync(typeof(T).Name)
+                : base.NavigateAsync(typeof(T).Name);
+        }
+
+        public Task<INavigationResult> NavigateAsync<T>(INavigationParameters parameters)
+        {
+            return typeof(T).BaseType == typeof(PopupPage) ?
+                Popup.NavigateAsync(typeof(T).Name, parameters)
+                : base.NavigateAsync(typeof(T).Name, parameters);
+        }
+    }
+
+    public interface IGemAppNavigationService : INavigationService
+    {
+        PopupPageNavigationService Popup { get; }
+        Task<INavigationResult> NavigateAsync<T>();
+        Task<INavigationResult> NavigateAsync<T>(INavigationParameters parameters);
     }
 }

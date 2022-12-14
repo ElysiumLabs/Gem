@@ -22,6 +22,9 @@ using Prism.Ioc;
 using System.Linq;
 using Shiny;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.Plugin.Popups;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 
 namespace Gem
 {
@@ -51,7 +54,6 @@ namespace Gem
 
             return CurrentApp;
         }
-
 
     }
 
@@ -160,7 +162,6 @@ namespace Gem
         {
             EventAggregator.GetEvent<GemAppRestartEvent>().Unsubscribe(Restart);
             EventAggregator.GetEvent<GemAppRestartEvent>().Subscribe(Restart);
-
             AppInitializer = Container.Resolve<AppInitializer>();
             await AppInitializer.Load(null);
         }
@@ -201,7 +202,7 @@ namespace Gem
             ViewModelLocationProvider.Register(Options.SplashPageType.ToString(), typeof(AppInitializer));
 
             containerRegistry.RegisterForNavigation<DefaultChangeEnvPage, DefaultChangeEnvViewModel>();
-
+            containerRegistry.RegisterPopupNavigationService();
         }
 
         protected virtual void HookAppCenterNavigationEvents()
