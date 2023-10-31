@@ -7,6 +7,7 @@ using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Plugin.Popups;
+using Prism.Xaml;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
@@ -74,7 +75,7 @@ namespace Gem.Bindings
 
         public IEventAggregator EventAggregator { get; protected set; }
         public ExceptionHandler ExceptionHandler { get; private set; }
-        public IGemAppNavigationService NavigationService { get; protected set; }
+        public IGemNavigationService NavigationService { get; protected set; }
     }
 
     public class ViewModelBaseServices
@@ -83,7 +84,7 @@ namespace Gem.Bindings
             //ILoggerFacade logger,
             IEventAggregator eventAggregator,
             ExceptionHandler exceptionHandler,
-            NavigationService navigationService
+            IGemNavigationService navigationService
             )
         {
             //Logger = logger;
@@ -95,43 +96,102 @@ namespace Gem.Bindings
         //public ILoggerFacade Logger { get; }
         public IEventAggregator EventAggregator { get; }
         public ExceptionHandler ExceptionHandler { get; }
-        public NavigationService NavigationService { get; }
+        public IGemNavigationService NavigationService { get; }
 
-}
+    }
 
     public class ViewModelBaseExceptionEvent : PubSubEvent<Exception>
     {
 
     }
 
-    public class NavigationService : PageNavigationService, IGemAppNavigationService
-    {
-        public NavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, PopupPageNavigationService popupPageNavigationService) : base(container, applicationProvider, pageBehaviorFactory)
-        {
-            Popup = popupPageNavigationService;
-        }
-
-        public PopupPageNavigationService Popup { get; }
-
-        public Task<INavigationResult> NavigateAsync<T>()
-        {
-            return typeof(T).BaseType == typeof(PopupPage) ?
-                Popup.NavigateAsync(typeof(T).Name)
-                : base.NavigateAsync(typeof(T).Name);
-        }
-
-        public Task<INavigationResult> NavigateAsync<T>(INavigationParameters parameters)
-        {
-            return typeof(T).BaseType == typeof(PopupPage) ?
-                Popup.NavigateAsync(typeof(T).Name, parameters)
-                : base.NavigateAsync(typeof(T).Name, parameters);
-        }
-    }
-
-    public interface IGemAppNavigationService : INavigationService
+    public interface IGemNavigationService 
     {
         PopupPageNavigationService Popup { get; }
-        Task<INavigationResult> NavigateAsync<T>();
-        Task<INavigationResult> NavigateAsync<T>(INavigationParameters parameters);
+        INavigationService NavigationService { get; }
+
+        Task<INavigationResult> GoBackAsync();
+
+        Task<INavigationResult> GoBackAsync(INavigationParameters parameters);
+
+        Task<INavigationResult> GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated);
+
+        Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters);
+
+        Task<INavigationResult> NavigateAsync(Uri uri);
+
+        Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
+
+        Task<INavigationResult> NavigateAsync(string name);
+
+        Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters);
+
+        Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated);
+
+        Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated);
+    }
+
+
+    public class GemNavigationService : IGemNavigationService
+    {
+        public PopupPageNavigationService Popup { get; private set; }
+
+        public INavigationService NavigationService { get; private set; }
+
+        public GemNavigationService(PopupPageNavigationService popupPageNavigationService, INavigationService navigationService) 
+        {
+            Popup = popupPageNavigationService;
+            NavigationService = navigationService;
+        }
+
+        public Task<INavigationResult> GoBackAsync()
+        {
+            return NavigationService.GoBackAsync();
+        }
+
+        public Task<INavigationResult> GoBackAsync(INavigationParameters parameters)
+        {
+            return NavigationService.GoBackAsync(parameters);
+        }
+
+        public Task<INavigationResult> GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return NavigationService.GoBackAsync(parameters, useModalNavigation, animated);
+        }
+
+        public Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters)
+        {
+            return NavigationService.GoBackToRootAsync(parameters);
+        }
+
+        public Task<INavigationResult> NavigateAsync(Uri uri)
+        {
+            return NavigationService.NavigateAsync(uri);
+        }
+
+        public Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters)
+        {
+            return NavigationService.NavigateAsync(uri, parameters);
+        }
+
+        public Task<INavigationResult> NavigateAsync(string name)
+        {
+            return NavigationService.NavigateAsync(name);
+        }
+
+        public Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters)
+        {
+            return NavigationService.NavigateAsync(name, parameters);
+        }
+
+        public Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return NavigationService.NavigateAsync(name, parameters, useModalNavigation, animated);
+        }
+
+        public Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return NavigationService.NavigateAsync(uri, parameters, useModalNavigation, animated);
+        }
     }
 }

@@ -25,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Prism.Plugin.Popups;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Services;
+using Gem.Bindings;
 
 namespace Gem
 {
@@ -190,6 +191,8 @@ namespace Gem
                 containerRegistry.RegisterManySingleton<AppCenterLogger>(typeof(ILogger), typeof(IAnalyticsService), typeof(ICrashesService));
                 HookAppCenterNavigationEvents();
             }
+
+            containerRegistry.Register<IGemNavigationService, GemNavigationService>();
 
             containerRegistry.RegisterSingleton(typeof(AppInitializer), Options.InitializerType);
 
